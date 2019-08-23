@@ -1,9 +1,9 @@
 """
-Idealista API
+Idealista API.
+
 Use the idealista.com API
 """
 import json
-import os
 import datetime
 import requests
 from requests.auth import HTTPBasicAuth
@@ -11,7 +11,10 @@ import exceptions
 
 
 class Client(object):
+    """Client object for idealista.com api."""
+
     def __init__(self, apikey, secret):
+        """Get APIKEY from http://developers.idealista.com/access-request."""
         self._apikey = apikey
         self._secret = secret
         self._auth_url = "https://api.idealista.com/oauth/token"
@@ -73,6 +76,10 @@ class Client(object):
             raise exceptions.SearchFailed(msg)
         else:
             return json.loads(response.text)
+
+    def api_search(self, country, data):
+        """Return the requested data as dictionary."""
+        return self._parse_post(self._post(country, data))
 
 
 if __name__ == '__main__':
